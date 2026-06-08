@@ -1,6 +1,12 @@
-# FitPrint
+<p align="center">
+  <img src="assets/icon-128.png" width="96" height="96" alt="FitPrint logo" />
+</p>
 
-[![Deploy to GitHub Pages](https://github.com/TZERO78/FitPrint/actions/workflows/deploy.yml/badge.svg)](https://github.com/TZERO78/FitPrint/actions/workflows/deploy.yml)
+<h1 align="center">FitPrint</h1>
+
+<p align="center">
+  <a href="https://github.com/TZERO78/FitPrint/actions/workflows/deploy.yml"><img src="https://github.com/TZERO78/FitPrint/actions/workflows/deploy.yml/badge.svg" alt="Deploy to GitHub Pages" /></a>
+</p>
 
 **FitPrint** is a free, open-source Microsoft Outlook add-in that prints the
 currently selected email cleanly — and automatically **scales oversized images
