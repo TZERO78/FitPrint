@@ -16,13 +16,9 @@
 
 /* global Office, document, window, DOMParser */
 
-import { getBodyAsync, openPrintDialog } from "./office-helpers.js";
+import { getBodyAsync, printViaDialog } from "./office-helpers.js";
 import { embedInlineImages, resizeAndOrientImages } from "./images.js";
 import { buildHeaderHtml, buildPrintableDocument } from "./build-document.js";
-
-// Same key is read by the print dialog (src/dialog/print.js). Both pages are
-// served from the same origin, so they share localStorage.
-const STORAGE_KEY = "fitprint:doc";
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Outlook) {
@@ -106,23 +102,14 @@ export async function run() {
     const parsed = new DOMParser().parseFromString(fullDoc, "text/html");
     preview.innerHTML = parsed.body ? parsed.body.innerHTML : fullDoc;
 
-    // Hand the document to the print dialog via localStorage (no size limit).
-    try {
-      window.localStorage.setItem(STORAGE_KEY, fullDoc);
-    } catch (e) {
-      // Storage might be full for very large emails - fall back to task-pane print.
-      setStatus("Preparing print (fallback)...");
-      await printInTaskPane(fullDoc);
-      setStatus("Print dialog opened.");
-      return;
-    }
-
     setStatus("Opening print dialog...");
     try {
-      await openPrintDialog();
+      // Stream the document to a top-level dialog window and print there.
+      await printViaDialog(fullDoc);
       setStatus("Print dialog opened. If nothing appeared, allow pop-ups and try again.");
     } catch (e) {
-      // displayDialogAsync failed (blocked/unsupported) - print from the task pane.
+      // Dialog blocked or messaging unsupported - print from the task pane instead.
+      setStatus("Preparing print (fallback)...");
       await printInTaskPane(fullDoc);
       setStatus("Print dialog opened.");
     }

@@ -62,22 +62,32 @@ export function getAttachmentContentAsync(attachmentId) {
   });
 }
 
+// Size of each message chunk sent to the dialog. Dialog messages are limited in
+// size, and in Outlook on the web the task pane runs in a partitioned iframe so
+// we cannot share localStorage with the dialog - we stream the document instead.
+const CHUNK_SIZE = 8000;
+
 /**
- * Open a separate, top-level window (an Office dialog) that will show the
- * print preview and trigger the browser's print dialog. A top-level window
- * prints reliably across New/Classic Outlook, Outlook on the web and Mac.
+ * Open a separate, top-level window (an Office dialog), stream the prepared HTML
+ * to it over the Office dialog messaging channel, and let it print. A top-level
+ * window prints reliably across New/Classic Outlook, Outlook on the web and Mac.
  *
- * The prepared HTML is handed over via localStorage (same origin), so there is
- * no message-size limit to worry about.
+ * Flow:
+ *   1. We open print.html.
+ *   2. The dialog registers its receiver and messages us "ready".
+ *   3. We send the document as "begin" + many "chunk" + "end" messages.
+ *   4. The dialog reassembles the HTML, renders it and calls window.print().
  *
- * @returns {Promise<Office.Dialog>}
+ * @param {string} fullDocHtml the complete printable HTML document
+ * @returns {Promise<void>} resolves when the dialog is closed
  */
-export function openPrintDialog() {
+export function printViaDialog(fullDocHtml) {
   return new Promise((resolve, reject) => {
     // Build the dialog URL relative to THIS page so it works both at the dev
     // server root (https://localhost:3000/print.html) and under a GitHub Pages
     // project subpath (https://<user>.github.io/FitPrint/print.html).
     const url = new URL("print.html", window.location.href).href;
+
     Office.context.ui.displayDialogAsync(
       url,
       { height: 70, width: 60, displayInIframe: false },
@@ -87,18 +97,45 @@ export function openPrintDialog() {
           return;
         }
         const dialog = result.value;
-        // The dialog can ask us to close it (its "Close" button).
-        dialog.addEventHandler(Office.EventType.DialogMessageReceived, (arg) => {
+
+        // Send the whole document to the dialog in small chunks.
+        const sendDocument = () => {
           try {
-            const msg = JSON.parse(arg.message);
-            if (msg && msg.type === "close") {
-              dialog.close();
+            const total = Math.ceil(fullDocHtml.length / CHUNK_SIZE) || 1;
+            dialog.messageChild(JSON.stringify({ type: "begin", total }));
+            for (let i = 0; i < total; i++) {
+              const part = fullDocHtml.substr(i * CHUNK_SIZE, CHUNK_SIZE);
+              dialog.messageChild(JSON.stringify({ type: "chunk", index: i, data: part }));
             }
+            dialog.messageChild(JSON.stringify({ type: "end" }));
           } catch (e) {
+            // Messaging not available - give up on the dialog so the caller can
+            // fall back to printing from the task pane.
             dialog.close();
+            reject(e);
+          }
+        };
+
+        // Messages coming back from the dialog.
+        dialog.addEventHandler(Office.EventType.DialogMessageReceived, (arg) => {
+          let msg;
+          try {
+            msg = JSON.parse(arg.message);
+          } catch (e) {
+            return;
+          }
+          if (msg.type === "ready") {
+            sendDocument();
+          } else if (msg.type === "close") {
+            dialog.close();
+            resolve();
           }
         });
-        resolve(dialog);
+
+        // Fired when the dialog is closed (e.g. the user closes the window).
+        dialog.addEventHandler(Office.EventType.DialogEventReceived, () => {
+          resolve();
+        });
       }
     );
   });

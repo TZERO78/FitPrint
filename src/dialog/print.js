@@ -2,19 +2,30 @@
  * FitPrint - print dialog
  *
  * This page runs in a separate, top-level window opened by the task pane.
- * It reads the prepared HTML document (stored in localStorage by the task pane,
- * same origin) and prints it. Printing from a top-level window is reliable
- * across New/Classic Outlook, Outlook on the web and Mac.
+ * The task pane streams the prepared HTML document to us over the Office dialog
+ * messaging channel (we cannot share localStorage with the task pane, because in
+ * Outlook on the web the task pane runs in a partitioned iframe). Once we have
+ * the full document we render it and print. Printing from a top-level window is
+ * reliable across New/Classic Outlook, Outlook on the web and Mac.
  */
 
 /* global Office, document, window, DOMParser */
 
-// Must match the key the task pane writes to (src/taskpane/taskpane.js).
-const STORAGE_KEY = "fitprint:doc";
+// Buffer for the incoming document chunks.
+let chunks = [];
 
 Office.onReady(() => {
   wireButtons();
-  renderAndPrint();
+
+  // Register the receiver for messages from the task pane, then tell it we are
+  // ready. The order matters: only signal "ready" once we can receive data.
+  Office.context.ui.addHandlerAsync(
+    Office.EventType.DialogParentMessageReceived,
+    onParentMessage,
+    () => {
+      Office.context.ui.messageParent(JSON.stringify({ type: "ready" }));
+    }
+  );
 });
 
 /** Hook up the Print and Close buttons. */
@@ -25,10 +36,27 @@ function wireButtons() {
     try {
       Office.context.ui.messageParent(JSON.stringify({ type: "close" }));
     } catch (e) {
-      // If messaging is unavailable, try to close the window directly.
       window.close();
     }
   };
+}
+
+/** Handle a single message from the task pane (the document arrives in chunks). */
+function onParentMessage(arg) {
+  let msg;
+  try {
+    msg = JSON.parse(arg.message);
+  } catch (e) {
+    return;
+  }
+
+  if (msg.type === "begin") {
+    chunks = new Array(msg.total);
+  } else if (msg.type === "chunk") {
+    chunks[msg.index] = msg.data;
+  } else if (msg.type === "end") {
+    renderAndPrint(chunks.join(""));
+  }
 }
 
 /** Resolve once every <img> inside `root` has loaded (or failed). */
@@ -46,16 +74,9 @@ function waitForImages(root) {
   );
 }
 
-/** Read the prepared document, render it into this page, then print. */
-function renderAndPrint() {
+/** Render the assembled document into this page, then print. */
+function renderAndPrint(docHtml) {
   const mount = document.getElementById("fp-mount");
-
-  let docHtml = "";
-  try {
-    docHtml = window.localStorage.getItem(STORAGE_KEY) || "";
-  } catch (e) {
-    docHtml = "";
-  }
 
   if (!docHtml) {
     mount.innerHTML =
@@ -64,8 +85,8 @@ function renderAndPrint() {
     return;
   }
 
-  // The stored value is a full HTML document. Copy its <style> blocks into our
-  // <head> and its body markup into the mount point.
+  // The document is a full HTML page. Copy its <style> blocks into our <head>
+  // and its body markup into the mount point.
   const parsed = new DOMParser().parseFromString(docHtml, "text/html");
   parsed.querySelectorAll("style").forEach((s) => document.head.appendChild(s.cloneNode(true)));
   mount.innerHTML = parsed.body ? parsed.body.innerHTML : docHtml;
