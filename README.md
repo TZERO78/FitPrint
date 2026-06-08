@@ -30,7 +30,8 @@ When you click **Print this email**, FitPrint:
    `cid:` references in the body with base64 `data:` URIs.
 3. Shrinks large images with a `<canvas>` (long edge max ~1600 px, JPEG quality
    ~0.85) and bakes in the correct **EXIF rotation** so photos are not sideways.
-4. Adds a **From / To / Date / Subject** header block.
+4. Adds a header block with **From / To / Cc / Date / Subject** (empty fields,
+   e.g. a missing Cc, are omitted).
 5. Injects print CSS (notably `img { max-width: 100%; height: auto }`).
 6. Opens a top-level **print dialog** and calls `window.print()` so the normal
    system print dialog with preview appears.
@@ -118,6 +119,18 @@ publishes the `dist/` folder to GitHub Pages. The production build automatically
 rewrites the URLs in the manifest from `https://localhost:3000/` to
 `https://tzero78.github.io/FitPrint/`, so the hosted `manifest.xml` is ready to
 distribute as-is.
+
+## Changelog
+
+### v1.1.0
+- Header block now includes **Cc**; empty header fields are omitted.
+- Inline images are embedded correctly (read `item.attachments`).
+- Reliable, acknowledged document transfer to the print dialog.
+- Content-hashed bundles so updates are never served from a stale cache.
+
+### v1.0.0
+- Initial release: read the email, embed inline `cid:` images, downscale large
+  images with EXIF orientation, add a header block and print via a dialog.
 
 ## License
 
