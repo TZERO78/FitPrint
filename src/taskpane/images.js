@@ -13,7 +13,7 @@
 
 /* global Office, document, window, Image, DOMParser, URL, createImageBitmap, fetch */
 
-import { getAttachmentsAsync, getAttachmentContentAsync } from "./office-helpers.js";
+import { getReadModeAttachments, getAttachmentContentAsync } from "./office-helpers.js";
 
 /**
  * Replace every <img src="cid:..."> in the HTML with a base64 data: URI built
@@ -27,9 +27,11 @@ import { getAttachmentsAsync, getAttachmentContentAsync } from "./office-helpers
  * @returns {Promise<string>} HTML with inline images embedded
  */
 export async function embedInlineImages(html) {
+  // In READ mode the attachment list is a synchronous property (item.attachments).
+  // getAttachmentsAsync is a COMPOSE-mode API and throws here.
   let attachments = [];
   try {
-    attachments = await getAttachmentsAsync();
+    attachments = getReadModeAttachments();
   } catch (e) {
     // No attachments available - just return the body unchanged.
     return html;

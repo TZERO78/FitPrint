@@ -29,19 +29,15 @@ export function getBodyAsync(coercionType) {
 
 /**
  * List the attachments of the current message.
- * Requires Mailbox requirement set 1.8 (declared in the manifest).
- * @returns {Promise<Array<Office.AttachmentDetails>>}
+ *
+ * In READ mode (which is what FitPrint runs in) the attachment list is exposed
+ * as the synchronous property item.attachments. Note: getAttachmentsAsync() is a
+ * COMPOSE-mode API and is NOT available here - calling it throws.
+ *
+ * @returns {Array<Office.AttachmentDetails>}
  */
-export function getAttachmentsAsync() {
-  return new Promise((resolve, reject) => {
-    Office.context.mailbox.item.getAttachmentsAsync((result) => {
-      if (result.status === Office.AsyncResultStatus.Succeeded) {
-        resolve(result.value || []);
-      } else {
-        reject(result.error);
-      }
-    });
-  });
+export function getReadModeAttachments() {
+  return Office.context.mailbox.item.attachments || [];
 }
 
 /**
