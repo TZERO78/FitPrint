@@ -54,6 +54,7 @@ function readHeaderData() {
   return {
     from: item.from, // EmailAddressDetails { displayName, emailAddress }
     to: item.to, // Array<EmailAddressDetails>
+    cc: item.cc, // Array<EmailAddressDetails> (empty if none)
     subject: item.subject, // string
     date: item.dateTimeCreated, // Date
   };

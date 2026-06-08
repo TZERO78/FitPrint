@@ -56,22 +56,34 @@ function formatRecipients(list) {
 }
 
 /**
- * Build the "From / To / Date / Subject" header block shown above the email.
- * @param {{from: object, to: Array, subject: string, date: Date}} header
+ * Build the header block shown above the email (From / To / Cc / Date / Subject).
+ * Empty fields are omitted entirely - e.g. a message without Cc shows no Cc row.
+ *
+ * @param {{from: object, to: Array, cc: Array, subject: string, date: Date}} header
  * @returns {string} HTML
  */
 export function buildHeaderHtml(header) {
-  const from = escapeHtml(formatAddress(header.from));
-  const to = escapeHtml(formatRecipients(header.to));
-  const date = escapeHtml(header.date ? header.date.toLocaleString() : "");
-  const subject = escapeHtml(header.subject);
+  // [label, value] pairs in the order they should appear.
+  const fields = [
+    ["From", formatAddress(header.from)],
+    ["To", formatRecipients(header.to)],
+    ["Cc", formatRecipients(header.cc)],
+    ["Date", header.date ? header.date.toLocaleString() : ""],
+    ["Subject", header.subject],
+  ];
+
+  const rows = fields
+    // Keep only fields that actually have a value.
+    .filter(([, value]) => value != null && String(value).trim() !== "")
+    .map(
+      ([label, value]) =>
+        `<div class="fp-row"><span class="fp-label">${label}:</span> ${escapeHtml(value)}</div>`
+    )
+    .join("\n    ");
 
   return `
   <div class="fp-headers">
-    <div class="fp-row"><span class="fp-label">From:</span> ${from}</div>
-    <div class="fp-row"><span class="fp-label">To:</span> ${to}</div>
-    <div class="fp-row"><span class="fp-label">Date:</span> ${date}</div>
-    <div class="fp-row"><span class="fp-label">Subject:</span> ${subject}</div>
+    ${rows}
   </div>`;
 }
 
