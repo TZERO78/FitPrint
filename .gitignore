@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Office Add-in dev certificates / secrets (never commit these)
+*.crt
+*.key
+*.pem
+*.pfx
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+
+# Environment / local secrets
+.env
+.env.*
+*.local
+secrets.json

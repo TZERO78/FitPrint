@@ -1,0 +1,57 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- FitPrint task pane: print the selected email with oversized images scaled to fit the page. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FitPrint</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css"/>
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-font-m ms-welcome ms-Fabric">
+    <!-- Shown until Office.js is ready / the add-in is sideloaded correctly. -->
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing">sideload</a> FitPrint to get started.</h2>
+    </section>
+
+    <!-- Main UI, hidden until Office.js signals it is ready (see taskpane.js). -->
+    <main id="app-body" class="ms-welcome__main" style="display: none;">
+        <!-- Everything inside .fp-ui is hidden while printing from the task pane. -->
+        <div class="fp-ui">
+            <header class="fp-header">
+                <img width="48" height="48" src="../../assets/logo-filled.png" alt="FitPrint" title="FitPrint" />
+                <h1 class="ms-font-xl">FitPrint</h1>
+            </header>
+
+            <p class="ms-font-m">
+                Click the button to prepare the selected email for printing. Oversized
+                images are scaled to fit the page, then a print dialog opens.
+            </p>
+
+            <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-l">
+                <span class="ms-Button-label">Print this email</span>
+            </div>
+
+            <!-- Small status line for progress / error messages. -->
+            <p id="status" class="ms-font-s" style="margin-top: 12px; color: #605e5c;"></p>
+        </div>
+
+        <!-- Preview of the prepared email (also used as the print surface in the
+             task-pane fallback). -->
+        <div id="preview" class="fp-preview"></div>
+    </main>
+</body>
+
+</html>

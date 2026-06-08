@@ -1,0 +1,57 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- FitPrint print dialog: a top-level window that renders the prepared email and prints it. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FitPrint - Print</title>
+
+    <!-- Office JavaScript API (needed to message the task pane, e.g. to close). -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <style>
+        body { margin: 0; font-family: Calibri, Arial, sans-serif; }
+
+        /* On-screen toolbar; hidden when the page is actually printed. */
+        #fp-toolbar {
+            position: sticky;
+            top: 0;
+            background: #f3f2f1;
+            border-bottom: 1px solid #ddd;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #fp-toolbar button {
+            font-size: 14px;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+        #fp-toolbar .fp-hint { color: #666; font-size: 12px; }
+
+        #fp-mount { padding: 12px; }
+
+        @media print {
+            #fp-toolbar { display: none !important; }
+            #fp-mount { padding: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fp-toolbar">
+        <button id="fp-print" type="button">Print</button>
+        <button id="fp-close" type="button">Close</button>
+        <span class="fp-hint">If the print dialog did not open automatically, click Print.</span>
+    </div>
+
+    <!-- The prepared email is injected here by print.js. -->
+    <div id="fp-mount"></div>
+</body>
+
+</html>
