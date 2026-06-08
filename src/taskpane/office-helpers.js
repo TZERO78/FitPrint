@@ -74,7 +74,10 @@ export function getAttachmentContentAsync(attachmentId) {
  */
 export function openPrintDialog() {
   return new Promise((resolve, reject) => {
-    const url = window.location.origin + "/print.html";
+    // Build the dialog URL relative to THIS page so it works both at the dev
+    // server root (https://localhost:3000/print.html) and under a GitHub Pages
+    // project subpath (https://<user>.github.io/FitPrint/print.html).
+    const url = new URL("print.html", window.location.href).href;
     Office.context.ui.displayDialogAsync(
       url,
       { height: 70, width: 60, displayInIframe: false },
