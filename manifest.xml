@@ -9,9 +9,8 @@
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://github.com/TZERO78/FitPrint"/>
-  <AppDomains>
-    <AppDomain>https://localhost:3000</AppDomain>
-  </AppDomains>
+  <!-- No AppDomains needed: the print dialog (print.html) is served from the
+       same origin as the task pane, both in dev and on GitHub Pages. -->
   <Hosts>
     <Host Name="Mailbox"/>
   </Hosts>
