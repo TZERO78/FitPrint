@@ -25,8 +25,23 @@ Office.onReady((info) => {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
     document.getElementById("run").onclick = run;
+
+    // When the task pane is pinned and the user selects a different message,
+    // Outlook fires ItemChanged but keeps the pane open. Without handling it,
+    // Office.context.mailbox.item stays on the OLD message and we would prepare
+    // the wrong email. Reset the UI so the next print reads the current message.
+    Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, onItemChanged);
   }
 });
+
+/** Called when the selected message changes (pinned task pane). */
+function onItemChanged() {
+  const preview = document.getElementById("preview");
+  if (preview) {
+    preview.innerHTML = "";
+  }
+  setStatus("");
+}
 
 /** Show a short status message in the task pane. */
 function setStatus(text) {
@@ -90,6 +105,12 @@ export async function run() {
 
     setStatus("Embedding inline images...");
     const withImages = await embedInlineImages(rawHtml);
+
+    // Diagnostic: how many inline images were resolved vs. still unresolved.
+    const cidLeft = (withImages.match(/src=["']cid:/gi) || []).length;
+    const embedded = (withImages.match(/data:image/gi) || []).length;
+    // eslint-disable-next-line no-console
+    console.log("[FitPrint] inline images — embedded:", embedded, "| unresolved cid:", cidLeft);
 
     setStatus("Resizing large images...");
     const resized = await resizeAndOrientImages(withImages);

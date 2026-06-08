@@ -65,7 +65,7 @@ export function getAttachmentContentAsync(attachmentId) {
 // Size of each message chunk sent to the dialog. Dialog messages are limited in
 // size, and in Outlook on the web the task pane runs in a partitioned iframe so
 // we cannot share localStorage with the dialog - we stream the document instead.
-const CHUNK_SIZE = 8000;
+const CHUNK_SIZE = 16000;
 
 /**
  * Open a separate, top-level window (an Office dialog), stream the prepared HTML
@@ -97,20 +97,19 @@ export function printViaDialog(fullDocHtml) {
           return;
         }
         const dialog = result.value;
+        const total = Math.ceil(fullDocHtml.length / CHUNK_SIZE) || 1;
+        let started = false;
 
-        // Send the whole document to the dialog in small chunks.
-        const sendDocument = () => {
+        // Send one chunk; the dialog acknowledges each one before we send the
+        // next. This acknowledged flow guarantees every chunk arrives in order,
+        // so large base64 images are never truncated in transit.
+        const sendChunk = (index) => {
           try {
-            const total = Math.ceil(fullDocHtml.length / CHUNK_SIZE) || 1;
-            dialog.messageChild(JSON.stringify({ type: "begin", total }));
-            for (let i = 0; i < total; i++) {
-              const part = fullDocHtml.substr(i * CHUNK_SIZE, CHUNK_SIZE);
-              dialog.messageChild(JSON.stringify({ type: "chunk", index: i, data: part }));
-            }
-            dialog.messageChild(JSON.stringify({ type: "end" }));
+            const part = fullDocHtml.substr(index * CHUNK_SIZE, CHUNK_SIZE);
+            dialog.messageChild(JSON.stringify({ type: "chunk", index, data: part }));
           } catch (e) {
-            // Messaging not available - give up on the dialog so the caller can
-            // fall back to printing from the task pane.
+            // Messaging not available - give up so the caller can fall back to
+            // printing from the task pane.
             dialog.close();
             reject(e);
           }
@@ -125,7 +124,31 @@ export function printViaDialog(fullDocHtml) {
             return;
           }
           if (msg.type === "ready") {
-            sendDocument();
+            if (started) {
+              return;
+            }
+            started = true;
+            // eslint-disable-next-line no-console
+            console.log("[FitPrint] sending document:", fullDocHtml.length, "chars in", total, "chunks");
+            try {
+              dialog.messageChild(JSON.stringify({ type: "begin", total }));
+            } catch (e) {
+              dialog.close();
+              reject(e);
+              return;
+            }
+            sendChunk(0);
+          } else if (msg.type === "ack") {
+            const next = msg.index + 1;
+            if (next < total) {
+              sendChunk(next);
+            } else {
+              try {
+                dialog.messageChild(JSON.stringify({ type: "end" }));
+              } catch (e) {
+                /* ignore - the dialog already has every chunk */
+              }
+            }
           } else if (msg.type === "close") {
             dialog.close();
             resolve();

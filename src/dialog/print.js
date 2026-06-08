@@ -54,6 +54,8 @@ function onParentMessage(arg) {
     chunks = new Array(msg.total);
   } else if (msg.type === "chunk") {
     chunks[msg.index] = msg.data;
+    // Acknowledge this chunk so the task pane sends the next one.
+    Office.context.ui.messageParent(JSON.stringify({ type: "ack", index: msg.index }));
   } else if (msg.type === "end") {
     renderAndPrint(chunks.join(""));
   }
@@ -88,6 +90,8 @@ function renderAndPrint(docHtml) {
   // The document is a full HTML page. Copy its <style> blocks into our <head>
   // and its body markup into the mount point.
   const parsed = new DOMParser().parseFromString(docHtml, "text/html");
+  // eslint-disable-next-line no-console
+  console.log("[FitPrint] received document:", docHtml.length, "chars,", parsed.images.length, "image(s)");
   parsed.querySelectorAll("style").forEach((s) => document.head.appendChild(s.cloneNode(true)));
   mount.innerHTML = parsed.body ? parsed.body.innerHTML : docHtml;
 

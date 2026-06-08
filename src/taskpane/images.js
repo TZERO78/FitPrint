@@ -40,6 +40,15 @@ export async function embedInlineImages(html) {
   const isImage = (a) => /^image\//i.test(a.contentType || "");
   const inline = attachments.filter((a) => a.isInline && isImage(a));
   const candidates = inline.length ? inline : attachments.filter(isImage);
+  // eslint-disable-next-line no-console
+  console.log(
+    "[FitPrint] attachments:",
+    attachments.length,
+    "| inline images:",
+    inline.length,
+    "| candidates:",
+    candidates.length
+  );
   if (!candidates.length) {
     return html;
   }
