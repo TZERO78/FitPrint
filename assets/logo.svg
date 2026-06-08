@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- FitPrint logo: a printer printing a page that carries an image.
+       Source of truth for the PNG icons (see tools/generate-icons.mjs). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B90F4"/>
+      <stop offset="1" stop-color="#0A5DC2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded badge background (corners stay transparent). -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- Page being printed, with a small picture on it (sun + mountains). -->
+  <rect x="40" y="22" width="48" height="41" rx="4" fill="#ffffff"/>
+  <circle cx="52" cy="35" r="4.5" fill="#2B90F4"/>
+  <path d="M43 57 L55 41 L62 49 L71 38 L85 57 Z" fill="#0A5DC2"/>
+
+  <!-- Printer body. -->
+  <rect x="28" y="64" width="72" height="30" rx="7" fill="#ffffff"/>
+  <rect x="40" y="61" width="48" height="5" rx="1" fill="#BFDCFB"/>
+  <rect x="78" y="72" width="12" height="5" rx="2.5" fill="#2B90F4"/>
+
+  <!-- Printed output sheet with two text lines. -->
+  <rect x="44" y="90" width="40" height="21" rx="3" fill="#ffffff"/>
+  <rect x="50" y="98" width="28" height="3" rx="1.5" fill="#9DC6F2"/>
+  <rect x="50" y="104" width="19" height="3" rx="1.5" fill="#9DC6F2"/>
+</svg>
