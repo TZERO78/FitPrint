@@ -24,6 +24,10 @@ module.exports = async (env, options) => {
     },
     output: {
       clean: true,
+      // Hash the bundle file names in production so browsers/Outlook always
+      // fetch the latest code after a deploy (no stale cached JS). The HTML
+      // files reference the hashed names automatically via HtmlWebpackPlugin.
+      filename: dev ? "[name].js" : "[name].[contenthash].js",
     },
     resolve: {
       extensions: [".html", ".js"],

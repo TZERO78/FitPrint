@@ -106,12 +106,6 @@ export async function run() {
     setStatus("Embedding inline images...");
     const withImages = await embedInlineImages(rawHtml);
 
-    // Diagnostic: how many inline images were resolved vs. still unresolved.
-    const cidLeft = (withImages.match(/src=["']cid:/gi) || []).length;
-    const embedded = (withImages.match(/data:image/gi) || []).length;
-    // eslint-disable-next-line no-console
-    console.log("[FitPrint] inline images — embedded:", embedded, "| unresolved cid:", cidLeft);
-
     setStatus("Resizing large images...");
     const resized = await resizeAndOrientImages(withImages);
 

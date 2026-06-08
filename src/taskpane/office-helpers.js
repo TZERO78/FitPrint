@@ -124,8 +124,6 @@ export function printViaDialog(fullDocHtml) {
               return;
             }
             started = true;
-            // eslint-disable-next-line no-console
-            console.log("[FitPrint] sending document:", fullDocHtml.length, "chars in", total, "chunks");
             try {
               dialog.messageChild(JSON.stringify({ type: "begin", total }));
             } catch (e) {
