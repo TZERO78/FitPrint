@@ -11,6 +11,8 @@
 
 /* global Office, document, window, DOMParser */
 
+import { waitForImages } from "../shared/wait-for-images.js";
+
 // Buffer for the incoming document chunks.
 let chunks = [];
 
@@ -59,21 +61,6 @@ function onParentMessage(arg) {
   } else if (msg.type === "end") {
     renderAndPrint(chunks.join(""));
   }
-}
-
-/** Resolve once every <img> inside `root` has loaded (or failed). */
-function waitForImages(root) {
-  const images = Array.from(root.querySelectorAll("img"));
-  return Promise.all(
-    images.map((img) =>
-      img.complete
-        ? Promise.resolve()
-        : new Promise((resolve) => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          })
-    )
-  );
 }
 
 /** Render the assembled document into this page, then print. */
