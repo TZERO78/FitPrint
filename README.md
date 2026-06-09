@@ -25,9 +25,9 @@ It is hosted on GitHub Pages: **<https://tzero78.github.io/FitPrint/>**
 When you click **Print this email**, FitPrint:
 
 1. Reads the message body as HTML (`item.body.getAsync`).
-2. Embeds inline images: it loads the message attachments
-   (`getAttachmentsAsync` + `getAttachmentContentAsync`) and replaces the
-   `cid:` references in the body with base64 `data:` URIs.
+2. Embeds inline images: it reads the message attachments (the synchronous
+   `item.attachments` property in read mode) and `getAttachmentContentAsync`,
+   then replaces the `cid:` references in the body with base64 `data:` URIs.
 3. Shrinks large images with a `<canvas>` (long edge max ~1600 px, JPEG quality
    ~0.85) and bakes in the correct **EXIF rotation** so photos are not sideways.
 4. Adds a header block with **From / To / Cc / Date / Subject** (empty fields,
