@@ -20,6 +20,7 @@ import { getBodyAsync, printViaDialog } from "./office-helpers.js";
 import { embedInlineImages, resizeAndOrientImages } from "./images.js";
 import { buildHeaderHtml, buildPrintableDocument } from "./build-document.js";
 import { sanitizeMailHtml } from "./sanitize.js";
+import { waitForImages } from "../shared/wait-for-images.js";
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Outlook) {
@@ -59,21 +60,6 @@ function readHeaderData() {
     subject: item.subject, // string
     date: item.dateTimeCreated, // Date
   };
-}
-
-/** Resolve once every <img> inside `root` has finished loading (or failed). */
-function waitForImages(root) {
-  const images = Array.from(root.querySelectorAll("img"));
-  return Promise.all(
-    images.map((img) =>
-      img.complete
-        ? Promise.resolve()
-        : new Promise((resolve) => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          })
-    )
-  );
 }
 
 /**

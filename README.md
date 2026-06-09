@@ -104,9 +104,11 @@ src/
     office-helpers.js       Promise wrappers around Office.js callbacks
     images.js               Embed cid: images, resize + EXIF orientation
     build-document.js       Header block, print CSS, document assembly
+    sanitize.js             DOMPurify sanitizing of the mail body
   dialog/
     print.html / print.js   Top-level print window (renders + prints)
-  commands/                 Generated command file (unused placeholder)
+  shared/
+    wait-for-images.js      Helper shared by the task pane and the dialog
 .github/workflows/
   deploy.yml                Build + deploy to GitHub Pages on every push to main
 ```
@@ -122,6 +124,16 @@ distribute as-is.
 
 ## Changelog
 
+### v1.2.0
+- **Security hardening:** the email body is now sanitized with
+  [DOMPurify](https://github.com/cure53/DOMPurify) before it is rendered; a
+  Content-Security-Policy and a `no-referrer` policy are enforced on both pages;
+  remote images that cannot be inlined are replaced with a placeholder so no
+  tracking pixels load while printing; and the deploy fails on high-severity
+  advisories in shipped dependencies (`npm audit --omit=dev`).
+- Removed the unused generated command file, dropped IE 11 from the build
+  targets, and de-duplicated the image-loading helper.
+
 ### v1.1.0
 - Header block now includes **Cc**; empty header fields are omitted.
 - Inline images are embedded correctly (read `item.attachments`).
@@ -131,6 +143,12 @@ distribute as-is.
 ### v1.0.0
 - Initial release: read the email, embed inline `cid:` images, downscale large
   images with EXIF orientation, add a header block and print via a dialog.
+
+## Acknowledgements
+
+FitPrint sanitizes untrusted email HTML with
+[**DOMPurify**](https://github.com/cure53/DOMPurify) by [Cure53](https://cure53.de/) —
+a huge thank you for this excellent, battle-tested library.
 
 ## License
 
