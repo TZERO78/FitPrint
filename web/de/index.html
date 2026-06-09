@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenMailPrint — Outlook-E-Mails drucken, ohne dass Bilder abgeschnitten werden</title>
+  <meta name="description"
+    content="Kostenloses, quelloffenes Outlook-Add-in, das die ausgewählte E-Mail sauber druckt und zu große Bilder auf die Seitenbreite verkleinert — damit beim Drucken nichts mehr abgeschnitten wird." />
+  <link rel="canonical" href="https://tzero78.github.io/OpenMailPrint/de/" />
+  <link rel="alternate" hreflang="de" href="https://tzero78.github.io/OpenMailPrint/de/" />
+  <link rel="alternate" hreflang="en" href="https://tzero78.github.io/OpenMailPrint/" />
+  <link rel="alternate" hreflang="x-default" href="https://tzero78.github.io/OpenMailPrint/" />
+  <link rel="icon" href="../assets/icon-64.png" />
+
+  <!-- Open Graph (Link-Vorschau) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="OpenMailPrint — Outlook-E-Mails drucken, ohne dass Bilder abgeschnitten werden" />
+  <meta property="og:description"
+    content="Ein kostenloses, quelloffenes Outlook-Add-in, das zu große Bilder beim Drucken auf die Seitenbreite verkleinert." />
+  <meta property="og:url" content="https://tzero78.github.io/OpenMailPrint/de/" />
+  <meta property="og:image" content="https://tzero78.github.io/OpenMailPrint/assets/icon-128.png" />
+
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.6; color: #1b1b1b; background: #fff;
+      max-width: 720px; margin: 0 auto; padding: 32px 20px 64px;
+    }
+    header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+    header img { width: 64px; height: 64px; }
+    h1 { font-size: 1.9rem; margin: 0; }
+    h2 { font-size: 1.2rem; margin-top: 32px; border-bottom: 1px solid #e2e2e2; padding-bottom: 4px; }
+    .lead { font-size: 1.1rem; color: #333; }
+    code { background: #f3f3f3; padding: 1px 5px; border-radius: 4px; font-size: 0.95em; }
+    pre { background: #f3f3f3; padding: 12px; border-radius: 6px; overflow:auto; }
+    a { color: #0b5cad; }
+    ul { padding-left: 20px; }
+    footer { margin-top: 40px; font-size: 0.9rem; color: #666; border-top: 1px solid #e2e2e2; padding-top: 12px; }
+    @media (prefers-color-scheme: dark) {
+      body { color: #e6e6e6; background: #1b1b1b; }
+      .lead { color: #cfcfcf; }
+      code, pre { background: #2a2a2a; }
+      h2 { border-color: #3a3a3a; }
+      footer { color: #9a9a9a; border-color: #3a3a3a; }
+      a { color: #6ab0ff; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="../assets/logo-filled.png" alt="OpenMailPrint-Logo" width="64" height="64" />
+    <h1>OpenMailPrint</h1>
+  </header>
+
+  <p class="lead">
+    Ein kostenloses, quelloffenes Microsoft-Outlook-Add-in, das die ausgewählte
+    E-Mail sauber druckt und zu große Bilder automatisch auf die Seitenbreite
+    verkleinert — damit beim Drucken nichts mehr am rechten Rand abgeschnitten wird.
+  </p>
+
+  <h2>Das Problem</h2>
+  <p>
+    Das moderne Outlook stellt Nachrichten mit der Word-Engine dar und bietet kein
+    „An Seite anpassen“ (Shrink to fit) mehr. Dadurch werden breite oder
+    hochaufgelöste Bilder beim Drucken einer E-Mail am rechten Rand abgeschnitten,
+    und es gibt keine eingebaute Möglichkeit, sie auf die Seite einzupassen.
+  </p>
+
+  <h2>Was OpenMailPrint macht</h2>
+  <ul>
+    <li>Liest die ausgewählte Nachricht und bettet ihre Inline-Bilder ein.</li>
+    <li>Verkleinert zu große Bilder auf die Seitenbreite und korrigiert die EXIF-Drehung.</li>
+    <li>Fügt einen Von- / An- / Cc- / Datum- / Betreff-Kopf hinzu und öffnet den normalen Druckdialog.</li>
+    <li>Liest die Nachricht nur — die E-Mail wird nie verändert.</li>
+  </ul>
+
+  <h2>Installieren</h2>
+  <p>Es ist auf GitHub Pages gehostet, es gibt also nichts zu bauen. Das Manifest einmal sideloaden:</p>
+  <pre>https://tzero78.github.io/OpenMailPrint/manifest.xml</pre>
+  <p>
+    Bei persönlichen Outlook.com-Konten ist „Aus URL hinzufügen“ meist deaktiviert —
+    dann die Manifest-Datei speichern und über „Aus Datei hinzufügen“ installieren.
+    Siehe die
+    <a href="https://github.com/TZERO78/OpenMailPrint#install-for-users">Installationsanleitung</a>.
+  </p>
+
+  <h2>Kompatibilität</h2>
+  <p>
+    OpenMailPrint ist ein Office-Web-Add-in und läuft daher in Outlook im Web, im
+    neuen und klassischen Outlook für Windows sowie in Outlook für Mac — überall dort,
+    wo die Plattform Office-Web-Add-ins unterstützt (Postfach-Anforderungssatz 1.8).
+  </p>
+
+  <footer>
+    Open Source (MIT) ·
+    <a href="https://github.com/TZERO78/OpenMailPrint">Quellcode auf GitHub</a> ·
+    <a href="../">English</a>
+  </footer>
+</body>
+
+</html>
