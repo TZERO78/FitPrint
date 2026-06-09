@@ -39,15 +39,20 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
-/** Format a single EmailAddressDetails as "Display Name <email>" (or just the email). */
+/**
+ * Format a single EmailAddressDetails as "Display Name <email>" (or just the email).
+ * Returns HTML-safe output: every component is escaped (including the angle brackets
+ * around the address), so the result is safe to place into HTML on its own.
+ */
 function formatAddress(addr) {
   if (!addr) {
     return "";
   }
-  return addr.displayName ? `${addr.displayName} <${addr.emailAddress}>` : addr.emailAddress || "";
+  const email = escapeHtml(addr.emailAddress);
+  return addr.displayName ? `${escapeHtml(addr.displayName)} &lt;${email}&gt;` : email;
 }
 
-/** Join a list of recipients into one comma-separated string. */
+/** Join a list of recipients into one comma-separated string (already HTML-safe). */
 function formatRecipients(list) {
   if (!list || !list.length) {
     return "";
@@ -63,13 +68,16 @@ function formatRecipients(list) {
  * @returns {string} HTML
  */
 export function buildHeaderHtml(header) {
-  // [label, value] pairs in the order they should appear.
+  // [label, value] pairs in the order they should appear. Values are HTML-safe:
+  // From/To/Cc come pre-escaped from formatAddress/formatRecipients; Date and
+  // Subject are escaped here. So the row template must NOT escape again (that
+  // would double-escape, e.g. & -> &amp;amp;).
   const fields = [
     ["From", formatAddress(header.from)],
     ["To", formatRecipients(header.to)],
     ["Cc", formatRecipients(header.cc)],
-    ["Date", header.date ? header.date.toLocaleString() : ""],
-    ["Subject", header.subject],
+    ["Date", escapeHtml(header.date ? header.date.toLocaleString() : "")],
+    ["Subject", escapeHtml(header.subject)],
   ];
 
   const rows = fields
@@ -77,7 +85,7 @@ export function buildHeaderHtml(header) {
     .filter(([, value]) => value != null && String(value).trim() !== "")
     .map(
       ([label, value]) =>
-        `<div class="fp-row"><span class="fp-label">${label}:</span> ${escapeHtml(value)}</div>`
+        `<div class="fp-row"><span class="fp-label">${label}:</span> ${value}</div>`
     )
     .join("\n    ");
 

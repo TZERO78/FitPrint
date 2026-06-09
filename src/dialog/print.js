@@ -55,9 +55,13 @@ function onParentMessage(arg) {
   if (msg.type === "begin") {
     chunks = new Array(msg.total);
   } else if (msg.type === "chunk") {
-    chunks[msg.index] = msg.data;
-    // Acknowledge this chunk so the task pane sends the next one.
-    Office.context.ui.messageParent(JSON.stringify({ type: "ack", index: msg.index }));
+    // Validate the sender-controlled index before writing (defense-in-depth):
+    // ignore out-of-range indices instead of writing to an arbitrary slot.
+    if (typeof msg.index === "number" && msg.index >= 0 && msg.index < chunks.length) {
+      chunks[msg.index] = msg.data;
+      // Acknowledge this chunk so the task pane sends the next one.
+      Office.context.ui.messageParent(JSON.stringify({ type: "ack", index: msg.index }));
+    }
   } else if (msg.type === "end") {
     renderAndPrint(chunks.join(""));
   }

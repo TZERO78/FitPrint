@@ -131,6 +131,13 @@ distribute as-is.
 
 ## Changelog
 
+### v1.2.2
+- **Privacy:** external (`http(s)`) images are no longer fetched while preparing the
+  print — only already-inlined `data:` images are processed, so no remote server is
+  contacted (no IP/timestamp leak); remote images render as a placeholder.
+- Hardening: re-sanitize at every `innerHTML` sink, bounds-check incoming print-dialog
+  chunks, make the address formatter self-escaping, and guard against an empty body.
+
 ### v1.2.1
 - Renamed the project from **FitPrint** to **OpenMailPrint** (clearer, and avoids
   collision with unrelated "FitPrint" products). No functional change; the add-in

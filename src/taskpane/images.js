@@ -27,6 +27,12 @@ import { getReadModeAttachments, getAttachmentContentAsync } from "./office-help
  * @returns {Promise<string>} HTML with inline images embedded
  */
 export async function embedInlineImages(html) {
+  // Guard against an empty/null body (e.g. a blank message) - html.replace would
+  // otherwise throw on null/undefined.
+  if (!html) {
+    return "";
+  }
+
   // In READ mode the attachment list is a synchronous property (item.attachments).
   // getAttachmentsAsync is a COMPOSE-mode API and throws here.
   let attachments = [];
@@ -87,26 +93,24 @@ export async function embedInlineImages(html) {
 
 /**
  * Load image bytes for a given <img> src.
- * Handles data: URIs and http(s) URLs; returns null for anything we can't read
- * (e.g. a remote image blocked by CORS), so the caller keeps the original.
+ * Handles ONLY data: URIs (the already-embedded inline images). External http(s)
+ * images are intentionally not fetched: doing so would contact the remote server
+ * (IP/timestamp leak, tracking pixel) before the email is even printed. Such
+ * images are left untouched here and replaced with a placeholder by the
+ * neutralization pass in resizeAndOrientImages. Returns null for anything we
+ * cannot read, so the caller keeps the original.
  * @param {string} src
  * @returns {Promise<Blob|null>}
  */
 async function srcToBlob(src) {
+  if (!src.startsWith("data:")) {
+    return null;
+  }
   try {
-    if (src.startsWith("data:")) {
-      const res = await fetch(src);
-      return await res.blob();
-    }
-    if (/^https?:/i.test(src)) {
-      const res = await fetch(src, { mode: "cors" });
-      if (!res.ok) {
-        return null;
-      }
-      return await res.blob();
-    }
+    const res = await fetch(src);
+    return await res.blob();
   } catch (e) {
-    // CORS / network error - leave the original image as-is.
+    // Malformed data: URI - skip it.
   }
   return null;
 }
