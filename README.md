@@ -47,36 +47,45 @@ image is processed in its own `try/catch` and falls back to the original.
 
 ## Install (for users)
 
-OpenMailPrint is already hosted on GitHub Pages, so there is **nothing to build or
-run** — you only sideload the hosted manifest once.
-
-The manifest to install is:
+OpenMailPrint is hosted on GitHub Pages, so there is **nothing to build or run** —
+you sideload the manifest once. The manifest is:
 
 ```
 https://tzero78.github.io/OpenMailPrint/manifest.xml
 ```
 
-**New Outlook / Outlook on the web**
+**Work or school account (Outlook on the web / New Outlook)**
 
 1. Open any email.
-2. Go to **Apps** (or **Get Add-ins**) → **My add-ins** →
-   **Custom add-ins** → **Add a custom add-in** → **Add from URL…**
+2. **Apps** (or **Get Add-ins**) → **My add-ins** → **Custom add-ins** →
+   **Add a custom add-in** → **Add from URL…**
 3. Paste the manifest URL above and confirm.
+
+**Personal Outlook.com account (or any account where “Add from URL” is greyed out)**
+
+“Add from URL” is disabled for most consumer accounts, so install from a file:
+
+1. Open the manifest URL above in your browser and **save it** as `manifest.xml`
+   (e.g. right-click → *Save as…*). This is the ready-to-use hosted manifest.
+2. **Apps** → **My add-ins** → **Custom add-ins** → **Add a custom add-in** →
+   **Add from file…**, pick the saved `manifest.xml`, and confirm the prompt.
 
 **Classic Outlook on Windows**
 
-1. Open a received email in its own window (double-click it).
-2. On the ribbon choose **All Apps / Get Add-ins**.
-3. **My add-ins** → **Custom Addins** → **Add a custom add-in** →
-   **Add from file…** (or **Add from URL…**), then point it at the manifest
-   above (or a local copy of `manifest.xml`) and confirm the security prompt.
+Open a received email in its own window, then **All Apps / Get Add-ins** →
+**My add-ins** → **Custom Addins** → **Add a custom add-in** → **Add from file…**
+(or **Add from URL…**) pointed at the manifest above.
 
 If your organization has disabled custom add-ins, sideload from a trusted
 network share instead — see the Microsoft docs on
 [sideloading Outlook add-ins](https://learn.microsoft.com/office/dev/add-ins/outlook/sideload-outlook-add-ins-for-testing).
 
-Once installed, open or select an email, click the **OpenMailPrint** button in the
-ribbon to open the task pane, then click **Print this email**.
+> The `manifest.xml` committed in this repo already contains the production URLs,
+> so the copy you see on GitHub is directly installable too. (A **local** dev build
+> rewrites those URLs to `https://localhost:3000/` — see *Develop locally*.)
+
+Once installed, select an email, click the **OpenMailPrint** button in the ribbon
+to open the task pane, then click **Print this email**.
 
 ## Develop locally
 
@@ -91,9 +100,11 @@ npm run dev-server # serves the add-in at https://localhost:3000
 The first run installs a local HTTPS development certificate; accept the trust
 prompt so Outlook can load `https://localhost:3000`.
 
-To test your local build, sideload the **local** `manifest.xml` (which points at
-`https://localhost:3000/`) using the same "Add from file" steps as above while
-the dev server is running.
+To test your local build, sideload the manifest the **dev server** serves at
+`https://localhost:3000/manifest.xml` (the dev build rewrites the production URLs
+to `localhost`) using the same "Add from file" steps as above, while the dev
+server is running. Don't sideload the committed `manifest.xml` directly for local
+testing — it points at the GitHub Pages production URLs.
 
 > Note: `npm start` tries to sideload automatically, but on many machines that
 > path now requires a Microsoft 365 cloud sign-in and fails with `401`.
@@ -130,6 +141,13 @@ rewrites the URLs in the manifest from `https://localhost:3000/` to
 distribute as-is.
 
 ## Changelog
+
+### v1.2.3
+- The committed `manifest.xml` now holds the production URLs, so the manifest in
+  the repo (and the one served on GitHub Pages) is directly installable; the dev
+  build rewrites the URLs to `localhost`. Install docs clarified, including the
+  "Add from file" path for personal Outlook.com accounts where "Add from URL" is
+  disabled.
 
 ### v1.2.2
 - **Privacy:** external (`http(s)`) images are no longer fetched while preparing the
