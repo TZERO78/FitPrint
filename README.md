@@ -121,8 +121,10 @@ src/
 ## Deployment
 
 The add-in is fully static. Every push to `main` triggers the
-`Deploy to GitHub Pages` GitHub Actions workflow, which runs `npm run build` and
-publishes the `dist/` folder to GitHub Pages. The production build automatically
+`Deploy to GitHub Pages` GitHub Actions workflow, which audits the shipped
+dependencies (`npm audit --omit=dev --audit-level=high`, failing the deploy on a
+high-severity advisory), runs `npm run build`, and publishes the `dist/` folder
+to GitHub Pages. The production build automatically
 rewrites the URLs in the manifest from `https://localhost:3000/` to
 `https://tzero78.github.io/FitPrint/`, so the hosted `manifest.xml` is ready to
 distribute as-is.
