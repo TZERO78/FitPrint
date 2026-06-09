@@ -67,6 +67,13 @@ module.exports = async (env, options) => {
             to: "assets/[name][ext][query]",
           },
           {
+            // Static landing page + sitemap, served at the GitHub Pages root so
+            // the site is indexable (taskpane.html is the add-in UI, not a page
+            // search engines can read).
+            from: "web",
+            to: ".",
+          },
+          {
             from: "manifest*.xml",
             to: "[name]" + "[ext]",
             // The committed manifest.xml holds the PRODUCTION URLs so the file

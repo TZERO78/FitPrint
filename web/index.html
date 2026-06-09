@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenMailPrint — print Outlook emails without images cut off</title>
+  <meta name="description"
+    content="Free, open-source Outlook add-in that prints the selected email cleanly and scales oversized images down to the page width, so they are no longer cut off when printing." />
+  <link rel="canonical" href="https://tzero78.github.io/OpenMailPrint/" />
+  <link rel="icon" href="assets/icon-64.png" />
+
+  <!-- Open Graph (link previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="OpenMailPrint — print Outlook emails without images cut off" />
+  <meta property="og:description"
+    content="A free, open-source Outlook add-in that scales oversized images down to the page width when printing an email." />
+  <meta property="og:url" content="https://tzero78.github.io/OpenMailPrint/" />
+  <meta property="og:image" content="https://tzero78.github.io/OpenMailPrint/assets/icon-128.png" />
+
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.6; color: #1b1b1b; background: #fff;
+      max-width: 720px; margin: 0 auto; padding: 32px 20px 64px;
+    }
+    header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+    header img { width: 64px; height: 64px; }
+    h1 { font-size: 1.9rem; margin: 0; }
+    h2 { font-size: 1.2rem; margin-top: 32px; border-bottom: 1px solid #e2e2e2; padding-bottom: 4px; }
+    .lead { font-size: 1.1rem; color: #333; }
+    code { background: #f3f3f3; padding: 1px 5px; border-radius: 4px; font-size: 0.95em; }
+    pre { background: #f3f3f3; padding: 12px; border-radius: 6px; overflow:auto; }
+    a { color: #0b5cad; }
+    ul { padding-left: 20px; }
+    footer { margin-top: 40px; font-size: 0.9rem; color: #666; border-top: 1px solid #e2e2e2; padding-top: 12px; }
+    @media (prefers-color-scheme: dark) {
+      body { color: #e6e6e6; background: #1b1b1b; }
+      .lead { color: #cfcfcf; }
+      code, pre { background: #2a2a2a; }
+      h2 { border-color: #3a3a3a; }
+      footer { color: #9a9a9a; border-color: #3a3a3a; }
+      a { color: #6ab0ff; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="assets/logo-filled.png" alt="OpenMailPrint logo" width="64" height="64" />
+    <h1>OpenMailPrint</h1>
+  </header>
+
+  <p class="lead">
+    A free, open-source Microsoft Outlook add-in that prints the selected email
+    cleanly and automatically scales oversized images down to the page width — so
+    they are no longer cut off when you print.
+  </p>
+
+  <h2>The problem</h2>
+  <p>
+    Modern Outlook renders messages with the Word engine and no longer offers a
+    “shrink to fit page” option. As a result, wide or high-resolution images get
+    clipped at the right edge when you print an email, and there is no built-in way
+    to fit them to the page.
+  </p>
+
+  <h2>What OpenMailPrint does</h2>
+  <ul>
+    <li>Reads the selected message and embeds its inline images.</li>
+    <li>Scales oversized images down to the page width and corrects their EXIF rotation.</li>
+    <li>Adds a From / To / Cc / Date / Subject header and opens the normal print dialog.</li>
+    <li>Only ever reads the message — it never modifies your email.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <p>It is hosted on GitHub Pages, so there is nothing to build. Sideload the manifest once:</p>
+  <pre>https://tzero78.github.io/OpenMailPrint/manifest.xml</pre>
+  <p>
+    See the
+    <a href="https://github.com/TZERO78/OpenMailPrint#install-for-users">install instructions</a>
+    for work/school accounts and for personal Outlook.com accounts.
+  </p>
+
+  <h2>Compatibility</h2>
+  <p>
+    OpenMailPrint is an Office web add-in, so it runs in Outlook on the web, new and
+    classic Outlook for Windows, and Outlook for Mac — wherever the platform supports
+    Office web add-ins (Mailbox requirement set 1.8).
+  </p>
+
+  <footer>
+    Open source (MIT) ·
+    <a href="https://github.com/TZERO78/OpenMailPrint">Source code on GitHub</a>
+  </footer>
+</body>
+
+</html>
