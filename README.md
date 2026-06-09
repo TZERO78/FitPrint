@@ -30,10 +30,15 @@ When you click **Print this email**, FitPrint:
    then replaces the `cid:` references in the body with base64 `data:` URIs.
 3. Shrinks large images with a `<canvas>` (long edge max ~1600 px, JPEG quality
    ~0.85) and bakes in the correct **EXIF rotation** so photos are not sideways.
-4. Adds a header block with **From / To / Cc / Date / Subject** (empty fields,
+   Remote images that cannot be inlined are replaced with a placeholder so no
+   tracking pixels load while printing.
+4. Sanitizes the body with **DOMPurify** before it is rendered — stripping
+   scripts, inline event handlers, `javascript:` links and structural injection
+   (`base`, `meta`, `form`, framing tags).
+5. Adds a header block with **From / To / Cc / Date / Subject** (empty fields,
    e.g. a missing Cc, are omitted).
-5. Injects print CSS (notably `img { max-width: 100%; height: auto }`).
-6. Opens a top-level **print dialog** and calls `window.print()` so the normal
+6. Injects print CSS (notably `img { max-width: 100%; height: auto }`).
+7. Opens a top-level **print dialog** and calls `window.print()` so the normal
    system print dialog with preview appears.
 
 The email is only ever **read, never modified** (the manifest requests
