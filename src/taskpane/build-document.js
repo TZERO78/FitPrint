@@ -1,5 +1,5 @@
 /*
- * FitPrint - build the printable document
+ * OpenMailPrint - build the printable document
  *
  * Takes the email's header fields plus the prepared body HTML and assembles a
  * complete, self-contained HTML document with a header block and print CSS.
@@ -7,7 +7,7 @@
 
 /**
  * Print stylesheet injected into the document we hand to the print dialog.
- * The key rule for FitPrint is `img { max-width: 100% }` so oversized images
+ * The key rule for OpenMailPrint is `img { max-width: 100% }` so oversized images
  * are never clipped at the page edge.
  */
 export const PRINT_CSS = `
@@ -20,7 +20,7 @@ export const PRINT_CSS = `
   .fp-headers .fp-label { font-weight: bold; display: inline-block; min-width: 64px; }
   .fp-body { word-wrap: break-word; }
 
-  /* The whole point of FitPrint: keep images within the printable page width. */
+  /* The whole point of OpenMailPrint: keep images within the printable page width. */
   img { max-width: 100% !important; height: auto !important; image-orientation: from-image; }
   table { max-width: 100% !important; }
 
@@ -101,7 +101,7 @@ export function buildPrintableDocument(headerHtml, bodyHtml) {
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>FitPrint</title>
+  <title>OpenMailPrint</title>
   <style>${PRINT_CSS}</style>
 </head>
 <body>

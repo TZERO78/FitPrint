@@ -1,5 +1,5 @@
 /*
- * FitPrint - image handling
+ * OpenMailPrint - image handling
  *
  * Two jobs live here:
  *   1) embedInlineImages: replace "cid:" references in the body with the actual

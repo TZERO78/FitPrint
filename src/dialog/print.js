@@ -1,5 +1,5 @@
 /*
- * FitPrint - print dialog
+ * OpenMailPrint - print dialog
  *
  * This page runs in a separate, top-level window opened by the task pane.
  * The task pane streams the prepared HTML document to us over the Office dialog

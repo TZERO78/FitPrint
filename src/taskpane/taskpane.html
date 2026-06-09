@@ -1,5 +1,5 @@
 <!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
-<!-- FitPrint task pane: print the selected email with oversized images scaled to fit the page. -->
+<!-- OpenMailPrint task pane: print the selected email with oversized images scaled to fit the page. -->
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +19,7 @@
          core "shrink images" feature. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://appsforoffice.microsoft.com https://ajax.aspnetcdn.com; style-src 'self' 'unsafe-inline' https://res-1.cdn.office.net; img-src 'self' data: blob: https://res-1.cdn.office.net; font-src 'self' data: https://res-1.cdn.office.net; connect-src 'self' data: blob: https:; object-src 'none'; base-uri 'none'" />
     <meta name="referrer" content="no-referrer" />
-    <title>FitPrint</title>
+    <title>OpenMailPrint</title>
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
@@ -34,7 +34,7 @@
 <body class="ms-font-m ms-welcome ms-Fabric">
     <!-- Shown until Office.js is ready / the add-in is sideloaded correctly. -->
     <section id="sideload-msg" class="ms-welcome__main">
-        <h2 class="ms-font-xl">Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing">sideload</a> FitPrint to get started.</h2>
+        <h2 class="ms-font-xl">Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing">sideload</a> OpenMailPrint to get started.</h2>
     </section>
 
     <!-- Main UI, hidden until Office.js signals it is ready (see taskpane.js). -->
@@ -42,8 +42,8 @@
         <!-- Everything inside .fp-ui is hidden while printing from the task pane. -->
         <div class="fp-ui">
             <header class="fp-header">
-                <img width="48" height="48" src="../../assets/logo-filled.png" alt="FitPrint" title="FitPrint" />
-                <h1 class="ms-font-xl">FitPrint</h1>
+                <img width="48" height="48" src="../../assets/logo-filled.png" alt="OpenMailPrint" title="OpenMailPrint" />
+                <h1 class="ms-font-xl">OpenMailPrint</h1>
             </header>
 
             <p class="ms-font-m">

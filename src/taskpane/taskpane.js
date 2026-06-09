@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
  *
- * FitPrint - task pane orchestration
+ * OpenMailPrint - task pane orchestration
  *
  * When the user clicks "Print this email", we run a small pipeline:
  *   1. Read the message body as HTML.
@@ -65,7 +65,7 @@ function readHeaderData() {
 /**
  * Fallback used only if the print dialog cannot be opened: render the prepared
  * document into the task pane itself and print from here. The print CSS in
- * taskpane.css hides the FitPrint controls while printing.
+ * taskpane.css hides the OpenMailPrint controls while printing.
  */
 async function printInTaskPane(fullDocHtml) {
   const parsed = new DOMParser().parseFromString(fullDocHtml, "text/html");

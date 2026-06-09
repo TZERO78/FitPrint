@@ -79,7 +79,7 @@ b {
     font-weight: bold;
 }
 
-/* FitPrint header: logo + title side by side. */
+/* OpenMailPrint header: logo + title side by side. */
 .fp-header {
     display: flex;
     align-items: center;
@@ -111,9 +111,9 @@ b {
 }
 
 /*
- * Task-pane print fallback: when FitPrint cannot open the print dialog it prints
+ * Task-pane print fallback: when OpenMailPrint cannot open the print dialog it prints
  * from the task pane itself. While that happens we add the .fp-printing class to
- * <body>; these rules hide the FitPrint controls and show only the email.
+ * <body>; these rules hide the OpenMailPrint controls and show only the email.
  */
 @media print {
     body.fp-printing .fp-ui {

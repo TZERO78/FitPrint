@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <!-- FitPrint logo: a printer printing a page that carries an image.
+  <!-- OpenMailPrint logo: a printer printing a page that carries an image.
        Source of truth for the PNG icons (see tools/generate-icons.mjs). -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
