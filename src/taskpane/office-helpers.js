@@ -1,11 +1,11 @@
 /*
- * FitPrint - Office.js helpers
+ * OpenMailPrint - Office.js helpers
  *
  * Office.js still uses the old callback style: you pass a function that receives
  * an "asyncResult". These tiny wrappers turn those calls into Promises so the
  * rest of the code can use clean async/await with try/catch.
  *
- * Everything here only READS the message. FitPrint never modifies the email.
+ * Everything here only READS the message. OpenMailPrint never modifies the email.
  */
 
 /* global Office, window */
@@ -30,7 +30,7 @@ export function getBodyAsync(coercionType) {
 /**
  * List the attachments of the current message.
  *
- * In READ mode (which is what FitPrint runs in) the attachment list is exposed
+ * In READ mode (which is what OpenMailPrint runs in) the attachment list is exposed
  * as the synchronous property item.attachments. Note: getAttachmentsAsync() is a
  * COMPOSE-mode API and is NOT available here - calling it throws.
  *
@@ -81,7 +81,7 @@ export function printViaDialog(fullDocHtml) {
   return new Promise((resolve, reject) => {
     // Build the dialog URL relative to THIS page so it works both at the dev
     // server root (https://localhost:3000/print.html) and under a GitHub Pages
-    // project subpath (https://<user>.github.io/FitPrint/print.html).
+    // project subpath (https://<user>.github.io/OpenMailPrint/print.html).
     const url = new URL("print.html", window.location.href).href;
 
     Office.context.ui.displayDialogAsync(

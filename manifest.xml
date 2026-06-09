@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>13896e1a-bf98-426d-be06-053975c2a4a5</Id>
-  <Version>1.2.0.0</Version>
+  <Version>1.2.1.0</Version>
   <ProviderName>TZERO78</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="FitPrint"/>
+  <DisplayName DefaultValue="OpenMailPrint"/>
   <Description DefaultValue="Print the selected email cleanly. Oversized images are automatically scaled down to fit the page width."/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
-  <SupportUrl DefaultValue="https://github.com/TZERO78/FitPrint"/>
+  <SupportUrl DefaultValue="https://github.com/TZERO78/OpenMailPrint"/>
   <!-- No AppDomains needed: the print dialog (print.html) is served from the
        same origin as the task pane, both in dev and on GitHub Pages. -->
   <Hosts>
@@ -28,7 +28,7 @@
       </DesktopSettings>
     </Form>
   </FormSettings>
-  <!-- FitPrint only reads the message, it never modifies it. -->
+  <!-- OpenMailPrint only reads the message, it never modifies it. -->
   <Permissions>ReadItem</Permissions>
   <Rule xsi:type="RuleCollection" Mode="Or">
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
@@ -78,11 +78,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="FitPrint"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="FitPrint"/>
+        <bt:String id="GroupLabel" DefaultValue="OpenMailPrint"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="OpenMailPrint"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open FitPrint to print this email with images scaled to fit the page."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open OpenMailPrint to print this email with images scaled to fit the page."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

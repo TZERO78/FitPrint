@@ -1,5 +1,5 @@
 /*
- * Generate the FitPrint PNG icons from assets/logo.svg.
+ * Generate the OpenMailPrint PNG icons from assets/logo.svg.
  *
  * Run with:  node tools/generate-icons.mjs
  * Requires "sharp" (install once with:  npm install sharp --no-save).

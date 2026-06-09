@@ -1,5 +1,5 @@
 /*
- * FitPrint - shared DOM helper
+ * OpenMailPrint - shared DOM helper
  *
  * Used by both the task pane (preview / fallback print) and the print dialog,
  * so it lives in one place instead of being duplicated in each entry.

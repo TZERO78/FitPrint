@@ -1,5 +1,5 @@
 /*
- * FitPrint - HTML sanitizing
+ * OpenMailPrint - HTML sanitizing
  *
  * The email body is attacker-controllable HTML (anyone can send you mail), and
  * we render it via innerHTML both in the task-pane preview and in the print
