@@ -16,9 +16,10 @@ Modern Outlook renders messages with the Word engine and no longer offers a
 "shrink to fit page" option. As a result, wide or high-resolution images get
 clipped at the right edge when you print. OpenMailPrint fixes that.
 
-It is a **client-side Office.js web add-in** (no VSTO/COM, no backend), so it
-runs in **New Outlook, classic Outlook, Outlook on the web, and Outlook for Mac**.
-It is hosted on GitHub Pages: **<https://tzero78.github.io/OpenMailPrint/>**
+It is a **client-side Office.js web add-in** (no VSTO/COM, no backend), hosted on
+GitHub Pages: **<https://tzero78.github.io/OpenMailPrint/>**. It runs in Outlook on
+the web and in the Outlook desktop app (new and classic) wherever the platform
+supports Office web add-ins — see [Compatibility](#compatibility).
 
 ## What it does
 
@@ -44,6 +45,21 @@ When you click **Print this email**, OpenMailPrint:
 The email is only ever **read, never modified** (the manifest requests
 `ReadItem` permission only). A single broken image never aborts the print — each
 image is processed in its own `try/catch` and falls back to the original.
+
+## Compatibility
+
+OpenMailPrint is an Office web add-in, so it runs in the Outlook clients that
+support web add-ins with Mailbox requirement set 1.8:
+
+- Outlook on the web
+- New Outlook for Windows
+- Classic Outlook for Windows (which uses the WebView2 runtime for add-ins)
+- Outlook for Mac
+
+Availability depends on the platform meeting those requirements — a mailbox that
+supports add-ins (Microsoft 365, Outlook.com, or Exchange) on a current Outlook
+build. Where web add-ins are not supported, or an administrator has turned off
+custom add-ins, it will not appear.
 
 ## Install (for users)
 
