@@ -5,8 +5,6 @@
  * so it lives in one place instead of being duplicated in each entry.
  */
 
-/* global Promise */
-
 /**
  * Resolve once every <img> inside `root` has finished loading (or failed), so a
  * printout is never blank because an image had not decoded yet.

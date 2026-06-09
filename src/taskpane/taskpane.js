@@ -72,7 +72,9 @@ async function printInTaskPane(fullDocHtml) {
   parsed.querySelectorAll("style").forEach((s) => document.head.appendChild(s.cloneNode(true)));
 
   const preview = document.getElementById("preview");
-  preview.innerHTML = parsed.body ? parsed.body.innerHTML : fullDocHtml;
+  // Re-sanitize at the sink (defense-in-depth): fullDocHtml is already sanitized,
+  // but never feed innerHTML the result of a DOMParser round-trip unsanitized.
+  preview.innerHTML = sanitizeMailHtml(parsed.body ? parsed.body.innerHTML : fullDocHtml);
 
   document.body.classList.add("fp-printing");
   await waitForImages(preview);
@@ -105,8 +107,9 @@ export async function run() {
     const fullDoc = buildPrintableDocument(headerHtml, safeBody);
 
     // Show a preview in the task pane so the user sees what will be printed.
+    // Re-sanitize at the sink (defense-in-depth) - see printInTaskPane.
     const parsed = new DOMParser().parseFromString(fullDoc, "text/html");
-    preview.innerHTML = parsed.body ? parsed.body.innerHTML : fullDoc;
+    preview.innerHTML = sanitizeMailHtml(parsed.body ? parsed.body.innerHTML : fullDoc);
 
     setStatus("Opening print dialog...");
     try {
