@@ -8,6 +8,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Content Security Policy. Injected <script> in mail HTML cannot run (it is
+         not 'self' and is stripped by DOMPurify anyway); <object>/<base> blocked.
+         Non-obvious, all REQUIRED by the Office.js runtime on Outlook on the web:
+           - ajax.aspnetcdn.com: office.js loadMsAjaxFull() pulls MicrosoftAjax.js
+           - 'unsafe-eval': MicrosoftAjax deserializes its culture JSON via eval()
+         Without these the task pane never finishes Office.onReady (stays blank).
+         connect-src stays permissive (data:/blob:/https:) because the image-resize
+         step fetch()es the embedded data: URIs - tightening it would break the
+         core "shrink images" feature. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://appsforoffice.microsoft.com https://ajax.aspnetcdn.com; style-src 'self' 'unsafe-inline' https://res-1.cdn.office.net; img-src 'self' data: blob: https://res-1.cdn.office.net; font-src 'self' data: https://res-1.cdn.office.net; connect-src 'self' data: blob: https:; object-src 'none'; base-uri 'none'" />
+    <meta name="referrer" content="no-referrer" />
     <title>FitPrint</title>
 
     <!-- Office JavaScript API -->

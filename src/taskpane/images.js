@@ -205,6 +205,21 @@ export async function resizeAndOrientImages(html, maxEdge = 1600, quality = 0.85
     }
   }
 
+  // Any image still pointing at a remote URL could not be inlined above (e.g.
+  // blocked by CORS). Leaving it in place would let the print dialog load it -
+  // a tracking pixel / privacy leak. Replace such sources with a transparent
+  // 1x1 placeholder; keep the original URL in a data- attribute for transparency.
+  const TRANSPARENT_PX =
+    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  for (const img of Array.from(doc.images)) {
+    const src = img.getAttribute("src") || "";
+    if (/^https?:/i.test(src)) {
+      img.setAttribute("data-fp-external-src", src);
+      img.setAttribute("src", TRANSPARENT_PX);
+      img.setAttribute("alt", img.getAttribute("alt") || "External image blocked");
+    }
+  }
+
   // Preserve <style> blocks from the original body, then return the body markup.
   const styles = Array.from(doc.querySelectorAll("style")).map((s) => s.outerHTML).join("\n");
   const body = doc.body ? doc.body.innerHTML : html;

@@ -8,6 +8,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Content Security Policy. The dialog renders the already-sanitized, already-
+         inlined document, so images are data:/blob: only and no remote fetches
+         happen here. script-src mirrors the task pane: ajax.aspnetcdn.com and
+         'unsafe-eval' are required by the Office.js runtime (MicrosoftAjax) that
+         print.js loads to receive the streamed document - without them office.js
+         never initializes here and the document is never delivered. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://appsforoffice.microsoft.com https://ajax.aspnetcdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'" />
+    <meta name="referrer" content="no-referrer" />
     <title>FitPrint - Print</title>
 
     <!-- Office JavaScript API (needed to message the task pane, e.g. to close). -->
