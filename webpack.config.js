@@ -69,11 +69,14 @@ module.exports = async (env, options) => {
           {
             from: "manifest*.xml",
             to: "[name]" + "[ext]",
+            // The committed manifest.xml holds the PRODUCTION URLs so the file
+            // people see/download from the repo is directly installable. For a
+            // local dev build we rewrite those to the localhost dev server.
             transform(content) {
               if (dev) {
-                return content;
+                return content.toString().replace(new RegExp(urlProd, "g"), urlDev);
               } else {
-                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+                return content;
               }
             },
           },
