@@ -36,6 +36,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Fail the deploy if a shipped (runtime) dependency has a high+ vulnerability.
+      # --omit=dev is deliberate: the add-in is fully static, so only runtime deps
+      # reach GitHub Pages. The build-time devDependencies (webpack, the office-addin
+      # CLI tools, etc.) carry known advisories that never touch the artifact, so
+      # auditing them here would block deploys for no security gain.
+      - name: Audit shipped dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Build (production)
         run: npm run build
 

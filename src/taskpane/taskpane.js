@@ -19,6 +19,7 @@
 import { getBodyAsync, printViaDialog } from "./office-helpers.js";
 import { embedInlineImages, resizeAndOrientImages } from "./images.js";
 import { buildHeaderHtml, buildPrintableDocument } from "./build-document.js";
+import { sanitizeMailHtml } from "./sanitize.js";
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Outlook) {
@@ -111,8 +112,11 @@ export async function run() {
     const resized = await resizeAndOrientImages(withImages);
 
     setStatus("Building printable document...");
+    // Sanitize the (attacker-controllable) mail body before it ever hits
+    // innerHTML - here in the preview and, after streaming, in the print dialog.
+    const safeBody = sanitizeMailHtml(resized);
     const headerHtml = buildHeaderHtml(readHeaderData());
-    const fullDoc = buildPrintableDocument(headerHtml, resized);
+    const fullDoc = buildPrintableDocument(headerHtml, safeBody);
 
     // Show a preview in the task pane so the user sees what will be printed.
     const parsed = new DOMParser().parseFromString(fullDoc, "text/html");
