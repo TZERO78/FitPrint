@@ -21,6 +21,67 @@
   <meta property="og:url" content="https://tzero78.github.io/OpenMailPrint/de/" />
   <meta property="og:image" content="https://tzero78.github.io/OpenMailPrint/assets/icon-128.png" />
 
+  <!-- Strukturierte Daten: helfen Google und KI-Antworten, das Tool und das gelöste
+       Problem zu verstehen. Die FAQ-Einträge spiegeln den sichtbaren FAQ-Abschnitt
+       (von Google verlangt). -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "OpenMailPrint",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Microsoft Outlook (Web, Windows, Mac)",
+      "url": "https://tzero78.github.io/OpenMailPrint/de/",
+      "description": "Kostenloses, quelloffenes Microsoft-Outlook-Add-in, das die ausgewählte E-Mail sauber druckt und zu große Bilder auf die Seitenbreite verkleinert, damit beim Drucken nichts mehr abgeschnitten wird.",
+      "softwareVersion": "1.2.3",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "inLanguage": "de"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": "de",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Warum werden Bilder beim Drucken einer E-Mail im neuen Outlook abgeschnitten?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Das neue Outlook stellt Nachrichten mit der Word-Engine dar und hat die frühere Option „An Seite anpassen“ entfernt. Breite oder hochaufgelöste Bilder behalten ihre Originalgröße und werden am rechten Rand abgeschnitten. OpenMailPrint verkleinert diese Bilder vor dem Drucken auf die Seitenbreite, sodass nichts mehr abgeschnitten wird."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie passe ich eine Outlook-E-Mail beim Drucken an die Seite an?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Installiere das kostenlose Add-in OpenMailPrint, öffne die E-Mail und nutze dessen Druck-Schaltfläche. Es baut die Nachricht mit auf die Seitenbreite verkleinerten Bildern neu auf und öffnet den normalen Druckdialog."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Gibt es im neuen Outlook eine Option „An Seite anpassen“?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nein. Das klassische Outlook hatte eine Druckskalierung, aber das neue Outlook und Outlook im Web bieten sie nicht mehr. OpenMailPrint bringt dieses Verhalten als kostenloses, quelloffenes Add-in zurück."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ist OpenMailPrint kostenlos und sicher?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Es ist kostenlos und quelloffen (MIT). Es liest nur die ausgewählte Nachricht, verändert deine E-Mail nie und läuft vollständig in Outlook."
+          }
+        }
+      ]
+    }
+  ]
+  </script>
+
   <style>
     :root { color-scheme: light dark; }
     * { box-sizing: border-box; }
@@ -93,6 +154,37 @@
     OpenMailPrint ist ein Office-Web-Add-in und läuft daher in Outlook im Web, im
     neuen und klassischen Outlook für Windows sowie in Outlook für Mac — überall dort,
     wo die Plattform Office-Web-Add-ins unterstützt (Postfach-Anforderungssatz 1.8).
+  </p>
+
+  <h2>FAQ</h2>
+
+  <p><strong>Warum werden Bilder beim Drucken einer E-Mail im neuen Outlook abgeschnitten?</strong></p>
+  <p>
+    Das neue Outlook stellt Nachrichten mit der Word-Engine dar und hat die frühere
+    Option „An Seite anpassen“ entfernt. Breite oder hochaufgelöste Bilder behalten
+    ihre Originalgröße und werden am rechten Rand abgeschnitten. OpenMailPrint
+    verkleinert diese Bilder vor dem Drucken auf die Seitenbreite, sodass nichts mehr
+    abgeschnitten wird.
+  </p>
+
+  <p><strong>Wie passe ich eine Outlook-E-Mail beim Drucken an die Seite an?</strong></p>
+  <p>
+    Installiere das kostenlose Add-in OpenMailPrint, öffne die E-Mail und nutze dessen
+    Druck-Schaltfläche. Es baut die Nachricht mit auf die Seitenbreite verkleinerten
+    Bildern neu auf und öffnet den normalen Druckdialog.
+  </p>
+
+  <p><strong>Gibt es im neuen Outlook eine Option „An Seite anpassen“?</strong></p>
+  <p>
+    Nein. Das klassische Outlook hatte eine Druckskalierung, aber das neue Outlook und
+    Outlook im Web bieten sie nicht mehr. OpenMailPrint bringt dieses Verhalten als
+    kostenloses, quelloffenes Add-in zurück.
+  </p>
+
+  <p><strong>Ist OpenMailPrint kostenlos und sicher?</strong></p>
+  <p>
+    Ja. Es ist kostenlos und quelloffen (MIT). Es liest nur die ausgewählte Nachricht,
+    verändert deine E-Mail nie und läuft vollständig in Outlook.
   </p>
 
   <footer>

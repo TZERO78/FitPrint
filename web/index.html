@@ -21,6 +21,64 @@
   <meta property="og:url" content="https://tzero78.github.io/OpenMailPrint/" />
   <meta property="og:image" content="https://tzero78.github.io/OpenMailPrint/assets/icon-128.png" />
 
+  <!-- Structured data: helps Google understand the tool and the problem it solves.
+       The FAQ entries below mirror the visible FAQ section (required by Google). -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "OpenMailPrint",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Microsoft Outlook (web, Windows, Mac)",
+      "url": "https://tzero78.github.io/OpenMailPrint/",
+      "description": "Free, open-source Microsoft Outlook add-in that prints the selected email cleanly and scales oversized images down to the page width, so they are no longer cut off when printing.",
+      "softwareVersion": "1.2.3",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why are images cut off when I print an email in the new Outlook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The new Outlook renders messages with the Word engine, which dropped the old \"shrink to fit page\" option. Wide or high-resolution images keep their original size and get clipped at the right edge. OpenMailPrint scales those images down to the page width before printing, so nothing is cut off."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I fit an Outlook email to the page when printing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Install the free OpenMailPrint add-in, open the email, and use its print button. It rebuilds the message with images scaled to the page width and opens the normal print dialog."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a \"fit to page\" option in the new Outlook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Classic Outlook had print scaling, but the new Outlook and Outlook on the web no longer expose it. OpenMailPrint adds that behavior back as a free, open-source add-in."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is OpenMailPrint free and safe to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It is free and open-source (MIT). It only reads the selected message, never modifies your email, and runs entirely inside Outlook."
+          }
+        }
+      ]
+    }
+  ]
+  </script>
+
   <style>
     :root { color-scheme: light dark; }
     * { box-sizing: border-box; }
@@ -92,6 +150,36 @@
     OpenMailPrint is an Office web add-in, so it runs in Outlook on the web, new and
     classic Outlook for Windows, and Outlook for Mac — wherever the platform supports
     Office web add-ins (Mailbox requirement set 1.8).
+  </p>
+
+  <h2>FAQ</h2>
+
+  <p><strong>Why are images cut off when I print an email in the new Outlook?</strong></p>
+  <p>
+    The new Outlook renders messages with the Word engine, which dropped the old
+    “shrink to fit page” option. Wide or high-resolution images keep their original
+    size and get clipped at the right edge. OpenMailPrint scales those images down to
+    the page width before printing, so nothing is cut off.
+  </p>
+
+  <p><strong>How do I fit an Outlook email to the page when printing?</strong></p>
+  <p>
+    Install the free OpenMailPrint add-in, open the email, and use its print button.
+    It rebuilds the message with images scaled to the page width and opens the normal
+    print dialog.
+  </p>
+
+  <p><strong>Is there a “fit to page” option in the new Outlook?</strong></p>
+  <p>
+    No. Classic Outlook had print scaling, but the new Outlook and Outlook on the web
+    no longer expose it. OpenMailPrint adds that behavior back as a free, open-source
+    add-in.
+  </p>
+
+  <p><strong>Is OpenMailPrint free and safe to use?</strong></p>
+  <p>
+    Yes. It is free and open-source (MIT). It only reads the selected message, never
+    modifies your email, and runs entirely inside Outlook.
   </p>
 
   <footer>
